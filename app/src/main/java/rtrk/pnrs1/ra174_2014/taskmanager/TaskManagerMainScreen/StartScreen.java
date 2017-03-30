@@ -15,7 +15,7 @@ import rtrk.pnrs1.ra174_2014.taskmanager.R;
  * zasad nije potreban interfejs, mozda ce biti u buducnosti!
  */
 
-public class StartScreen extends AppCompatActivity implements StartScreenPresenter {
+public class StartScreen extends AppCompatActivity implements StartScreenModel {
 
     private Button btnAddTask;
     private Button btnStatistics;

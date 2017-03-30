@@ -8,7 +8,7 @@ import android.widget.Button;
  * ovo zasad nije potrebno, mozda ce biti u buducnosti!
  */
 
-public interface StartScreenPresenter {
+public class StartScreenPresenter {
 
 
 
