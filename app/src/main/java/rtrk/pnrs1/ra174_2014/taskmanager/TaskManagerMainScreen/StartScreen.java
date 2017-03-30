@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import rtrk.pnrs1.ra174_2014.taskmanager.AddTaskMainScreen.AddTaskView;
 import rtrk.pnrs1.ra174_2014.taskmanager.R;
+import rtrk.pnrs1.ra174_2014.taskmanager.Statistics.StatisticsView;
 
 /**
  * Created by Srdjan Suvakov on 3/27/17.
@@ -39,7 +40,7 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
 
         btnStatistics.setOnClickListener(new View.OnClickListener(){
 
-            @Override
+         @Override
             public void onClick(View view){
                 Intent intent = new Intent(StartScreen.this, StatisticsView.class);
                 startActivity(intent);

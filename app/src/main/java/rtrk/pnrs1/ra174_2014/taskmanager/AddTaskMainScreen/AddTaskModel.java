@@ -5,4 +5,17 @@ package rtrk.pnrs1.ra174_2014.taskmanager.AddTaskMainScreen;
  */
 
 public class AddTaskModel {
+
+    public interface View{
+        void initStuff();
+        void proceedToNextActivity();
+        void CheckAddTaskButton();
+    }
+
+
+    public interface PresenterInterface{
+
+
+
+    }
 }

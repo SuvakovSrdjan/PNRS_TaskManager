@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Task Manager</string>
-    <string name="NewTask">New Task</string>
-    <string name="statistics">Statistics</string>
+    <string name="NewTask">Novi Zadatak</string>
+    <string name="statistics">Statistika</string>
+    <string name="add_task">Dodaj</string>
+    <string name="cancel_task">Otkazi</string>
+    <string name="task_name">Ime Zadatka</string>
+    <string name="pick_time">Vremenski period isticanja zadatka</string>
+    <string name="task_description">Opis zadatka</string>
+    <string name="reminder">Obavesti me 15 minuta pre isteka zadatka</string>
 </resources>
