@@ -25,7 +25,6 @@
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:ems="10"
                 android:hint="@string/task_name"
                 android:background="@color/white"
                 android:inputType="textPersonName"
@@ -34,24 +33,40 @@
                 android:textColor="@color/black"
                  />
 
-
-            <TimePicker
-                android:id="@+id/timePicker"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="3"
                 android:layout_height="0dp"
-                style="@android:style/Widget.Material.Light.TimePicker"
-                android:elevation="1dp"
-                android:timePickerMode="spinner">
-            </TimePicker>
+                android:layout_weight="3"
+                android:orientation="horizontal"
+                >
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    style="@android:style/Widget.Material.TimePicker"
+                    android:elevation="1dp"
+                    android:timePickerMode="spinner">
+                </TimePicker>
+                <DatePicker
+                    android:id="@+id/datePicker"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    style="@android:style/Widget.DatePicker"
+                    android:elevation="1dp"
+                    android:datePickerMode="spinner">
+                </DatePicker>
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/txtTaskDescription"
-                android:layout_weight="7"
+                android:layout_weight="5"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:ems="10"
                 android:hint="@string/task_description"
                 android:background="@color/white"
                 android:inputType="textShortMessage"
