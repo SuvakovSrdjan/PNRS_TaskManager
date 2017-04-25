@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10"
     tools:context="rtrk.pnrs1.ra174_2014.taskmanager.AddTaskMainScreen.AddTaskView">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="10"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/colors"
         android:fillViewport="true">
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,6 +52,7 @@
                     android:id="@+id/datePicker"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:minDate=""
                     android:layout_height="match_parent"
                     style="@android:style/Widget.DatePicker"
                     android:elevation="1dp"
@@ -91,7 +91,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_above="@+id/addRemove"
+        android:id="@+id/colors"
         android:orientation="horizontal">
 
         <Button
@@ -126,7 +127,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/addRemove"
         android:orientation="horizontal">
 
         <Button
@@ -144,4 +146,4 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

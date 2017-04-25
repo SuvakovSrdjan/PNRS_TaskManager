@@ -57,56 +57,58 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
     }
 
     @Override
-    public void initStuff(){
-        txtTaskName=(EditText)findViewById(R.id.txtTaskName);
-        txtTaskDescription=(EditText)findViewById(R.id.txtTaskDescription);
-        taskTimePicker=(TimePicker) findViewById(R.id.timePicker);
-        taskDatePicker=(DatePicker) findViewById(R.id.datePicker);
-        chkReminder=(CheckBox)findViewById(R.id.chkReminder);
-        btnRed=(Button)findViewById(R.id.btnRed);
-        btnGreen=(Button)findViewById(R.id.btnGreen);
-        btnYellow=(Button)findViewById(R.id.btnYellow);
-        btnCancelTask=(Button)findViewById(R.id.btnCancelTask);
-        btnAddTask=(Button)findViewById(R.id.btnAddTask);
+    public void initStuff() {
+        txtTaskName = (EditText) findViewById(R.id.txtTaskName);
+        txtTaskDescription = (EditText) findViewById(R.id.txtTaskDescription);
+        taskTimePicker = (TimePicker) findViewById(R.id.timePicker);
+        taskDatePicker = (DatePicker) findViewById(R.id.datePicker);
+        chkReminder = (CheckBox) findViewById(R.id.chkReminder);
+        btnRed = (Button) findViewById(R.id.btnRed);
+        btnGreen = (Button) findViewById(R.id.btnGreen);
+        btnYellow = (Button) findViewById(R.id.btnYellow);
+        btnCancelTask = (Button) findViewById(R.id.btnCancelTask);
+        btnAddTask = (Button) findViewById(R.id.btnAddTask);
         btnAddTask.setEnabled(false);
         pickedColor = 0;
         taskTimePicker.setIs24HourView(true);
         taskTimePicker.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-
+        taskDatePicker.setMinDate(System.currentTimeMillis());
+        btnAddTask.setText(getIntent().getStringExtra(getResources().getString(R.string.btn1)));
+        btnCancelTask.setText(getIntent().getStringExtra(getResources().getString(R.string.btn2)));
 
 
         //Initialize Listeners!
 
         txtTaskName.addTextChangedListener(new MyTextWatcher());
 
-        txtTaskDescription.addTextChangedListener(new MyTextWatcher);
+        txtTaskDescription.addTextChangedListener(new MyTextWatcher());
 
-        btnCancelTask.setOnClickListener(new View.OnClickListener(){
+        btnCancelTask.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 ShowCancelToast();
                 proceedToNextActivity();
             }
         });
 
-        btnAddTask.setOnClickListener(new View.OnClickListener(){
+        btnAddTask.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
 
-                if(btnAddTask.isEnabled()){
+                if (btnAddTask.isEnabled()) {
                     ShowToast();
                     proceedToNextActivity();
                 }
             }
         });
 
-        btnGreen.setOnClickListener(new View.OnClickListener(){
+        btnGreen.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
-                if(pickedColor == 0){
+            public void onClick(View view) {
+                if (pickedColor == 0) {
                     btnRed.setEnabled(false);
                     btnRed.setBackgroundColor(Color.GRAY);
                     btnYellow.setEnabled(false);
@@ -114,8 +116,7 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
                     pickedColor = 3;
                     CheckAddTaskButton();
                     return;
-                }
-                else if(pickedColor == 3){
+                } else if (pickedColor == 3) {
                     btnRed.setEnabled(true);
                     btnRed.setBackgroundColor(Color.RED);
                     btnYellow.setEnabled(true);
@@ -126,11 +127,11 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
                 }
             }
         });
-        btnRed.setOnClickListener(new View.OnClickListener(){
+        btnRed.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
-                if(pickedColor == 0){
+            public void onClick(View view) {
+                if (pickedColor == 0) {
                     btnGreen.setEnabled(false);
                     btnGreen.setBackgroundColor(Color.GRAY);
                     btnYellow.setEnabled(false);
@@ -138,8 +139,7 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
                     pickedColor = 1;
                     CheckAddTaskButton();
                     return;
-                }
-                else if(pickedColor == 1){
+                } else if (pickedColor == 1) {
                     btnGreen.setEnabled(true);
                     btnGreen.setBackgroundColor(Color.GREEN);
                     btnYellow.setEnabled(true);
@@ -151,11 +151,11 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
             }
         });
 
-        btnYellow.setOnClickListener(new View.OnClickListener(){
+        btnYellow.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
-                if(pickedColor == 0){
+            public void onClick(View view) {
+                if (pickedColor == 0) {
                     btnRed.setEnabled(false);
                     btnRed.setBackgroundColor(Color.GRAY);
                     btnGreen.setEnabled(false);
@@ -163,8 +163,7 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
                     pickedColor = 2;
                     CheckAddTaskButton();
                     return;
-                }
-                else if(pickedColor == 2){
+                } else if (pickedColor == 2) {
                     btnRed.setEnabled(true);
                     btnRed.setBackgroundColor(Color.RED);
                     btnGreen.setEnabled(true);
@@ -175,24 +174,8 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
                 }
             }
         });
-
-      /*  taskTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                CheckAddTaskButton();
-            }
-        });
-
-        taskDatePicker.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                CheckAddTaskButton();
-                return true;
-            }
-        });*/
-
-
     }
+
 
 
     @Override
@@ -211,34 +194,17 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
 
     @Override
     public void CheckAddTaskButton(){
-      /*  Calendar c= Calendar.getInstance();
+        Calendar c= Calendar.getInstance();
         long millis=System.currentTimeMillis();
         c.setTimeInMillis(millis);
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         int hours   =c.get(Calendar.HOUR);
-        int minutes = c.get(Calendar.MINUTE);*/
+        int minutes = c.get(Calendar.MINUTE);
         if(pickedColor >=1 && !txtTaskDescription.getText().toString().isEmpty()
            && !txtTaskName.getText().toString().isEmpty()){
             btnAddTask.setEnabled(true);
-            /*if(year < taskDatePicker.getYear()){
-                btnAddTask.setEnabled(true);
-            } else if (year == taskDatePicker.getYear()){
-                if( month < taskDatePicker.getDayOfMonth())
-                    btnAddTask.setEnabled(true);
-                else if(month == taskDatePicker.getMonth()){
-                    if (day < taskDatePicker.getDayOfMonth())
-                        btnAddTask.setEnabled(true);
-                    else if( day == taskDatePicker.getDayOfMonth())
-                        if(hours < taskTimePicker.getCurrentHour())
-                            btnAddTask.setEnabled(true);
-                        else if(hours == taskTimePicker.getCurrentHour())
-                            if(minutes <= taskTimePicker.getCurrentMinute())
-                                btnAddTask.setEnabled(true);
-                }
-            }*/
-
         }else{
             btnAddTask.setEnabled(false);
         }
@@ -248,12 +214,12 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
     }
 
     public void ShowToast(){
-        Toast toast = Toast.makeText(this, "Zadatak Dodat", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, R.string.toast_add_task, Toast.LENGTH_LONG);
         toast.show();
     }
 
     public void ShowCancelToast(){
-        Toast toast = Toast.makeText(this, "Dodavanje Otkazano", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, R.string.toast_cancel_task, Toast.LENGTH_LONG);
         toast.show();
     }
 }

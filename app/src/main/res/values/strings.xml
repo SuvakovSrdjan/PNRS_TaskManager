@@ -8,4 +8,20 @@
     <string name="pick_time">Vremenski period isticanja zadatka</string>
     <string name="task_description">Opis zadatka</string>
     <string name="reminder">Obavesti me 15 minuta pre isteka zadatka</string>
+    <string name="empty_list">Lista je prazna!</string>
+    <string name="toast_cancel_task">Dodavanje je otkazano!</string>
+    <string name="toast_add_task">Element je dodat u listu!</string>
+    <string name="save_changes">Sacuvaj</string>
+    <string name="delete_list_element">Obrisi</string>
+    <string name="date_today">Danas</string>
+    <string name="date_tomorow">Sutra</string>
+    <string name="date_monday">Ponedeljak</string>
+    <string name="date_tueseday">Utorak</string>
+    <string name="date_wednsday">Sreda</string>
+    <string name="date_thursday">Cetvrtak</string>
+    <string name="date_friday">Petak</string>
+    <string name="date_sunday">Nedelja</string>
+    <string name="date_saturday">Subota</string>
+    <string name="btn1">Temp</string>
+    <string name="btn2">Temp</string>
 </resources>
