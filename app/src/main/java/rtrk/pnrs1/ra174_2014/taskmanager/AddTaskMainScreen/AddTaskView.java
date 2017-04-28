@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import rtrk.pnrs1.ra174_2014.taskmanager.ListAdapterStuff.ListData;
 import rtrk.pnrs1.ra174_2014.taskmanager.R;
 import rtrk.pnrs1.ra174_2014.taskmanager.TaskManagerMainScreen.StartScreen;
 
@@ -30,6 +31,7 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
      TimePicker taskTimePicker;
      CheckBox chkReminder;
      DatePicker taskDatePicker;
+     ListData task;
     int pickedColor;
 
     @Override
@@ -87,8 +89,13 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
 
             @Override
             public void onClick(View view) {
-                ShowCancelToast();
-                proceedToNextActivity();
+
+
+                    Intent intent = new Intent(getBaseContext(),StartScreen.class);
+                    ShowCancelToast();
+                    setResult(RESULT_CANCELED,intent);
+                    finish();
+
             }
         });
 
@@ -98,8 +105,13 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
             public void onClick(View view) {
 
                 if (btnAddTask.isEnabled()) {
+                    Intent intent = new Intent(getBaseContext(),StartScreen.class);
+                    task=new ListData(txtTaskName.getText().toString(),pickedColor,taskDatePicker.getDayOfMonth(),
+                                taskDatePicker.getMonth()+1,taskDatePicker.getYear(),false,chkReminder.isChecked());
+                    intent.putExtra("Task",task);
                     ShowToast();
-                    proceedToNextActivity();
+                    setResult(RESULT_OK,intent);
+                    finish();
                 }
             }
         });
@@ -189,7 +201,9 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
     public void onBackPressed() {
         super.onBackPressed();
         ShowCancelToast();
-        proceedToNextActivity();
+        Intent intent = new Intent(getBaseContext(),StartScreen.class);
+        setResult(RESULT_CANCELED,intent);
+        finish();
     }
 
     @Override
