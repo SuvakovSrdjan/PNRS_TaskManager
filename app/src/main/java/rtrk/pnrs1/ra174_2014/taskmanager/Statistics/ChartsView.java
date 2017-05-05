@@ -35,7 +35,7 @@ public class ChartsView extends View{
     private RectF greenCircle = new RectF();
 
     //Ascync Task function
-    private ChartAnimate animate = new ChartAnimate();
+    public ChartAnimate animate = new ChartAnimate();
 
     //Percentage shown inside circles
     private String greenPercentage;
@@ -70,17 +70,17 @@ public class ChartsView extends View{
 
         //make rectangles on which the circles will be drawn
         redCircle.set(canvas.getWidth() * 4 / 12,
-                canvas.getHeight() / 10,
+                canvas.getHeight() / 12,
                 canvas.getWidth() * 8 / 12,
-                canvas.getHeight() * 3 / 10);
+                canvas.getHeight() * 3 / 12);
         yellowCircle.set(canvas.getWidth() / 12,
-                canvas.getHeight() * 5 / 10,
+                canvas.getHeight() * 5 / 12,
                 canvas.getWidth() * 5 / 12,
-                canvas.getHeight() * 7 / 10);
+                canvas.getHeight() * 7 / 12);
         greenCircle.set(canvas.getWidth() * 7 / 12,
-                canvas.getHeight() * 5 / 10,
+                canvas.getHeight() * 5 / 12,
                 canvas.getWidth() * 11 / 12,
-                canvas.getHeight() * 7 / 10);
+                canvas.getHeight() * 7 / 12);
 
 
         //Animate circles drawing (each time an async task is called, the drawn color integer is
@@ -143,7 +143,7 @@ public class ChartsView extends View{
     }
 
 
-    private class ChartAnimate extends AsyncTask<Void, Void, Void>{
+    public class ChartAnimate extends AsyncTask<Void, Void, Void>{
         boolean redDone = false;
         boolean yellowDone = false;
         boolean greenDone = false;
@@ -166,6 +166,9 @@ public class ChartsView extends View{
                 else
                     yellowDone = true;
 
+                if(isCancelled())
+                    break;
+
                 redPercentage = Integer.toString(redDrawn) + "%";
                 yellowPercentage = Integer.toString(yellowDrawn) + "%";
                 greenPercentage = Integer.toString(greenDrawn) + "%";
@@ -182,9 +185,9 @@ public class ChartsView extends View{
              redDone = false;
              yellowDone = false;
              greenDone = false;
-            greenDrawn = 0;
-            redDrawn = 0;
-            yellowDrawn = 0;
+             greenDrawn = 0;
+             redDrawn = 0;
+             yellowDrawn = 0;
         }
         @Override
         protected void onPostExecute(Void aVoid) {

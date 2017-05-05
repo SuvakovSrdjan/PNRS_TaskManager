@@ -43,6 +43,7 @@ public class ListAdapter extends ArrayAdapter<ListData> {
             e.printStackTrace();
         }
 
+
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.task_element, parent, false);
         }
