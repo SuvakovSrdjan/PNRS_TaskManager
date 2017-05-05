@@ -20,7 +20,9 @@
         </activity>
         <activity android:name=".AddTaskMainScreen.AddTaskView"
             android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Statistics.StatisticsView"></activity>
+        <activity android:name=".Statistics.StatisticsView"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"></activity>
     </application>
 
 </manifest>

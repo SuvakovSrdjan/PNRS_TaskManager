@@ -75,7 +75,7 @@ public class ListAdapter extends ArrayAdapter<ListData> {
         });
 
         RadioButton reminder = (RadioButton) view.findViewById(R.id.rowReminder);
-        reminder.setEnabled(false);
+        reminder.setEnabled(true);
         if(element.reminder){
             reminder.setChecked(true);
         } else {

@@ -24,4 +24,5 @@
     <string name="date_saturday">Subota</string>
     <string name="btn1">Temp1</string>
     <string name="btn2">Temp2</string>
+    <string name="back_to_main">Nazad</string>
 </resources>

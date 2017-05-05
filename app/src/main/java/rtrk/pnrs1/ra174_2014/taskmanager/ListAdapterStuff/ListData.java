@@ -1,10 +1,11 @@
 package rtrk.pnrs1.ra174_2014.taskmanager.ListAdapterStuff;
 
+import java.io.Serializable;
 /**
  * Created by airjetsrka on 4/25/17.
  */
 
-public class ListData {
+public class ListData implements Serializable{
 
     public String taskName;
     public int priority; // 1-red, 2-yellow, 3-green
