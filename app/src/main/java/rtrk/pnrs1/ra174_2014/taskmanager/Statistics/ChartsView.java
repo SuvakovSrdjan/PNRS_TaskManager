@@ -179,12 +179,7 @@ public class ChartsView extends View{
 
         @Override
         protected void onPreExecute(){
-             redDone = false;
-             yellowDone = false;
-             greenDone = false;
-            greenDrawn = 0;
-            redDrawn = 0;
-            yellowDrawn = 0;
+
         }
         @Override
         protected void onPostExecute(Void aVoid) {
