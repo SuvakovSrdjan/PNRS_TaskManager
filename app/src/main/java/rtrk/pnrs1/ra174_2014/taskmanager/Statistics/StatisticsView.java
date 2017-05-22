@@ -23,7 +23,6 @@ public class StatisticsView extends AppCompatActivity implements StatisticsModel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics_view);
         init();
-
     }
 
     private void init(){

@@ -112,7 +112,8 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
                     Intent intent = new Intent(getBaseContext(),StartScreen.class);
                     listItem=new ListData(txtTaskName.getText().toString(),pickedColor,
                             taskDatePicker.getDayOfMonth(),taskDatePicker.getMonth()+1,
-                            taskDatePicker.getYear(),false,chkReminder.isChecked());
+                            taskDatePicker.getYear(),taskTimePicker.getCurrentHour(),
+                            taskTimePicker.getCurrentMinute(),false,chkReminder.isChecked());
                     listOfTasks.add(listItem);
                     intent.putExtra("Task", listItem);
                     ShowToast();
@@ -201,7 +202,8 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
         Intent intent = new Intent(getBaseContext(),StartScreen.class);
         listItem=new ListData(txtTaskName.getText().toString(),pickedColor,
                 taskDatePicker.getDayOfMonth(),taskDatePicker.getMonth()+1,
-                taskDatePicker.getYear(),false,chkReminder.isChecked());
+                taskDatePicker.getYear(),taskTimePicker.getCurrentHour(),
+                taskTimePicker.getCurrentMinute(),false,chkReminder.isChecked());
         listOfTasks.add(listItem);
         intent.putExtra("Task", listItem);
         setResult(RESULT_OK,intent);
