@@ -97,7 +97,6 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
             public void onClick(View view){
                 Intent intent = new Intent(StartScreen.this, StatisticsView.class);
                 startActivity(intent);
-                finish();
             }
         });
 
