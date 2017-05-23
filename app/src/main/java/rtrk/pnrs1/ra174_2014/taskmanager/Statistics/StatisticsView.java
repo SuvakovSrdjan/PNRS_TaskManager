@@ -5,8 +5,8 @@ package rtrk.pnrs1.ra174_2014.taskmanager.Statistics;
  * Created by airjetsrka on 3/28/17.
  */
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -18,6 +18,7 @@ public class StatisticsView extends AppCompatActivity implements StatisticsModel
 
     Button statsBack;
     RelativeLayout layout;
+    ChartsView chartsView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,7 @@ public class StatisticsView extends AppCompatActivity implements StatisticsModel
 
     private void init(){
         statsBack = (Button)findViewById(R.id.statsBack);
+        chartsView =  new ChartsView(getBaseContext(),90,68,30);
         statsBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,7 +37,7 @@ public class StatisticsView extends AppCompatActivity implements StatisticsModel
         });
 
         layout=(RelativeLayout)findViewById(R.id.realtive_layout);
-        layout.addView(new ChartsView(this,90,68,30));
+        layout.addView(chartsView);
 
     }
 
@@ -46,7 +48,9 @@ public class StatisticsView extends AppCompatActivity implements StatisticsModel
     }
     public void proceedToNextActivity() {
         Intent intent = new Intent(StatisticsView.this, StartScreen.class);
-        startActivity(intent);
+        chartsView.animate.cancel(true);
+        setResult(RESULT_OK,intent);
         finish();
     }
 }
+
