@@ -176,7 +176,10 @@ public class TaskReminderService extends Service{
 
 
      }
-    public void updateTasks(ListData t){
-        tasks.add(t);
+    public void updateTasks(ArrayList<ListData> t){
+
+        tasks = new ArrayList<ListData>(t);
     }
+
+
 }

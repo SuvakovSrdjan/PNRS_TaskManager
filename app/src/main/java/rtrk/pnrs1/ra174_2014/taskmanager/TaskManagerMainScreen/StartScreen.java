@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import rtrk.pnrs1.ra174_2014.taskmanager.AddTaskMainScreen.AddTaskModel;
 import rtrk.pnrs1.ra174_2014.taskmanager.AddTaskMainScreen.AddTaskView;
+import rtrk.pnrs1.ra174_2014.taskmanager.DatabaseStuff.TaskDbHelper;
 import rtrk.pnrs1.ra174_2014.taskmanager.ListAdapterStuff.ListAdapter;
 import rtrk.pnrs1.ra174_2014.taskmanager.ListAdapterStuff.ListData;
 import rtrk.pnrs1.ra174_2014.taskmanager.R;
@@ -34,10 +35,12 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
     private Button btnAddTask;
     private Button btnStatistics;
     private ListView listView;
+    private String changedItemName;
     ArrayList<ListData> listData;
     ListAdapter listAdapter;
     ListData listItem;
     TaskReminderService taskReminderService;
+    TaskDbHelper taskDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,14 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
 
         initStuff();
         makeService();
+        taskDbHelper = new TaskDbHelper(this);
+        for (ListData newListItem : taskDbHelper.readTasks()) {
+            listData.add(newListItem);
+
+        }
+        listAdapter.notifyDataSetChanged();
+
+
 
     }
 
@@ -106,7 +117,9 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
                 Intent intent = new Intent(getBaseContext(), AddTaskView.class);
                 intent.putExtra(getResources().getString(R.string.btn1),getResources().getString(R.string.save_changes));
                 intent.putExtra(getResources().getString(R.string.btn2),getResources().getString(R.string.delete_list_element));
-                startActivity(intent);
+                intent.putExtra("EDIT",(ListData) listView.getItemAtPosition(position));
+                changedItemName = ((ListData) listView.getItemAtPosition(position)).taskName;
+                startActivityForResult(intent, 2);
                 return true;
             }
         });
@@ -115,18 +128,55 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("TAG","got in1");
-        if(requestCode==1) {
-            Log.d("TAG","got in2");
+        // Log.d("TAG","got in1");
+        if (requestCode == 1) {
+            //   Log.d("TAG","got in2");
             if (resultCode == Activity.RESULT_OK) {
-                Log.d("TAG","got in3");
+                // Log.d("TAG","got in3");
                 listItem = ((ListData) data.getSerializableExtra("Task"));
                 listData.add(listItem);
+                taskDbHelper.insert(listItem);
                 listAdapter.notifyDataSetChanged();
-                taskReminderService.updateTasks((ListData) data.getSerializableExtra("Task"));
+                taskReminderService.updateTasks(listData);
+            }
+        } else if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                if (data.hasExtra("Deleted")) {
+                    listItem = ((ListData) data.getSerializableExtra("Task"));
+                    Log.d("TAG", "got in2");
+                    taskDbHelper.deleteTask(changedItemName);
+                    Log.d("TAG", "got in3");
+
+                    listData.clear();
+                    Log.d("TAG", "got in1");
+
+                    for (ListData newListData : taskDbHelper.readTasks()) {
+                        listData.add(newListData);
+                        Log.e("TAG", "got WILD");
+
+                    }
+                    taskReminderService.updateTasks(listData);
+                    listAdapter.notifyDataSetChanged();
+                } else {
+                    listItem = ((ListData) data.getSerializableExtra("Task"));
+                    listData.clear();
+                    taskDbHelper.deleteTask(changedItemName);
+                    taskDbHelper.insert(listItem);
+                    for (ListData newListItem : taskDbHelper.readTasks()) {
+                        listData.add(newListItem);
+
+                    }
+                    taskReminderService.updateTasks(listData);
+
+                    listAdapter.notifyDataSetChanged();
+
+
+                }
             }
         }
     }
-
-
 }
+
+
+

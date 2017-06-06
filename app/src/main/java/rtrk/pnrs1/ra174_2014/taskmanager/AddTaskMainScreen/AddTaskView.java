@@ -38,6 +38,8 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
      ListData listItem;
      ArrayList<ListData> listOfTasks;
      int pickedColor;
+     boolean canEdit;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,55 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
         btnAddTask.setText(getIntent().getStringExtra(getResources().getString(R.string.btn1)));
         btnCancelTask.setText(getIntent().getStringExtra(getResources().getString(R.string.btn2)));
         listOfTasks=new ArrayList<>();
+        intent = getIntent();
+
+        if(intent.hasExtra("EDIT")) {
+            canEdit = true;
+            listItem = (ListData) intent.getSerializableExtra("EDIT");
+            txtTaskName.setText(listItem.taskName);
+            taskDatePicker.updateDate(listItem.year,listItem.month+1,listItem.day);
+            taskTimePicker.setCurrentHour(listItem.hour);
+            taskTimePicker.setCurrentMinute(listItem.minute);
+            txtTaskDescription.setText(listItem.taskDescription);
+            if(listItem.reminder)
+                chkReminder.setChecked(true);
+            else
+                chkReminder.setChecked(false);
+
+            switch (listItem.priority){
+                case 1:
+                    btnRed.setEnabled(false);
+                    btnRed.setBackgroundColor(Color.GRAY);
+                    btnYellow.setEnabled(false);
+                    btnYellow.setBackgroundColor(Color.GRAY);
+                    pickedColor = 1;
+                    break;
+                case 2:
+                    btnRed.setEnabled(false);
+                    btnRed.setBackgroundColor(Color.GRAY);
+                    btnGreen.setEnabled(false);
+                    btnGreen.setBackgroundColor(Color.GRAY);
+                    pickedColor = 2;
+                    break;
+                case 3:
+                    btnGreen.setEnabled(false);
+                    btnGreen.setBackgroundColor(Color.GRAY);
+                    btnYellow.setEnabled(false);
+                    btnYellow.setBackgroundColor(Color.GRAY);
+                    pickedColor = 3;
+                    break;
+                default:
+                    pickedColor = 0;
+                    break;
+
+            }
+            CheckAddTaskButton();
+
+        }
+        else
+            canEdit = false;
+
+
 
 
 
@@ -98,6 +149,16 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
             public void onClick(View view) {
                 ShowCancelToast();
                 Intent intent = new Intent(getBaseContext(),StartScreen.class);
+                if(btnCancelTask.getText().equals(getResources().getString(R.string.delete_list_element))) {
+                    listItem=new ListData(txtTaskName.getText().toString(),
+                            txtTaskDescription.getText().toString(),pickedColor,
+                            taskDatePicker.getDayOfMonth(),taskDatePicker.getMonth()+1,
+                            taskDatePicker.getYear(),taskTimePicker.getCurrentHour(),
+                            taskTimePicker.getCurrentMinute(),false,chkReminder.isChecked());
+                    intent.putExtra("Deleted", listItem);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
                 setResult(RESULT_CANCELED,intent);
                 finish();
             }
@@ -110,7 +171,8 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
 
                 if (btnAddTask.isEnabled()) {
                     Intent intent = new Intent(getBaseContext(),StartScreen.class);
-                    listItem=new ListData(txtTaskName.getText().toString(),pickedColor,
+                    listItem=new ListData(txtTaskName.getText().toString(),
+                            txtTaskDescription.getText().toString(),pickedColor,
                             taskDatePicker.getDayOfMonth(),taskDatePicker.getMonth()+1,
                             taskDatePicker.getYear(),taskTimePicker.getCurrentHour(),
                             taskTimePicker.getCurrentMinute(),false,chkReminder.isChecked());
@@ -200,7 +262,8 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
     @Override
     public void proceedToNextActivity() {
         Intent intent = new Intent(getBaseContext(),StartScreen.class);
-        listItem=new ListData(txtTaskName.getText().toString(),pickedColor,
+        listItem=new ListData(txtTaskName.getText().toString(),
+                txtTaskDescription.getText().toString(), pickedColor,
                 taskDatePicker.getDayOfMonth(),taskDatePicker.getMonth()+1,
                 taskDatePicker.getYear(),taskTimePicker.getCurrentHour(),
                 taskTimePicker.getCurrentMinute(),false,chkReminder.isChecked());
@@ -215,6 +278,9 @@ public class AddTaskView extends AppCompatActivity implements AddTaskModel.View 
         super.onBackPressed();
         ShowCancelToast();
         Intent intent = new Intent(getBaseContext(),StartScreen.class);
+
+
+
         setResult(RESULT_CANCELED,intent);
         finish();
     }
