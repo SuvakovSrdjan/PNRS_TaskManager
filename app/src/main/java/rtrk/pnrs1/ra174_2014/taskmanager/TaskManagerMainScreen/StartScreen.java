@@ -36,6 +36,7 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
     private Button btnStatistics;
     private ListView listView;
     private String changedItemName;
+    int yellowTasks,doneYellowTasks,redTasks,doneRedTasks,greenTasks,doneGreenTasks;
     ArrayList<ListData> listData;
     ListAdapter listAdapter;
     ListData listItem;
@@ -50,15 +51,21 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
 
         initStuff();
         makeService();
-        taskDbHelper = new TaskDbHelper(this);
-        for (ListData newListItem : taskDbHelper.readTasks()) {
-            listData.add(newListItem);
+        readDatabase();
 
+
+
+    }
+
+    private void readDatabase() {
+        taskDbHelper = new TaskDbHelper(this);
+        if(taskDbHelper.readTasks() != null) {
+            for (ListData newListItem : taskDbHelper.readTasks()) {
+                listData.add(newListItem);
+
+            }
         }
         listAdapter.notifyDataSetChanged();
-
-
-
     }
 
     private void makeService() {
@@ -89,6 +96,12 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
         listAdapter=new ListAdapter(getBaseContext(),listData);
         listView=(ListView)findViewById(R.id.list);
         listView.setAdapter(listAdapter);
+        redTasks =0;
+        doneRedTasks=0;
+        yellowTasks = 0;
+        doneYellowTasks = 0;
+        greenTasks = 0;
+        doneGreenTasks =0;
 
         btnAddTask.setOnClickListener(new View.OnClickListener(){
 
@@ -151,25 +164,15 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
                     listData.clear();
                     Log.d("TAG", "got in1");
 
-                    for (ListData newListData : taskDbHelper.readTasks()) {
-                        listData.add(newListData);
-                        Log.e("TAG", "got WILD");
-
-                    }
+                    readDatabase();
                     taskReminderService.updateTasks(listData);
-                    listAdapter.notifyDataSetChanged();
                 } else {
                     listItem = ((ListData) data.getSerializableExtra("Task"));
                     listData.clear();
                     taskDbHelper.deleteTask(changedItemName);
                     taskDbHelper.insert(listItem);
-                    for (ListData newListItem : taskDbHelper.readTasks()) {
-                        listData.add(newListItem);
-
-                    }
+                    readDatabase();
                     taskReminderService.updateTasks(listData);
-
-                    listAdapter.notifyDataSetChanged();
 
 
                 }
