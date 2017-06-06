@@ -1,6 +1,7 @@
 package rtrk.pnrs1.ra174_2014.taskmanager.Statistics;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.view.View;
 
+import rtrk.pnrs1.ra174_2014.taskmanager.TaskManagerMainScreen.StartScreen;
 
 
 /**
@@ -18,7 +20,7 @@ import android.view.View;
 public class ChartsView extends View{
 
 
-    //percentage to be drawn, will be inherited from list
+    Intent intent = new Intent(getContext(), StartScreen.class);    //percentage to be drawn, will be inherited from list
     private Paint mPaint;
     private int greenMax=0;
     private int redMax=0;

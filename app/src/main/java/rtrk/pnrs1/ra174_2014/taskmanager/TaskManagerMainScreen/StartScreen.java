@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -36,12 +37,13 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
     private Button btnStatistics;
     private ListView listView;
     private String changedItemName;
-    int yellowTasks,doneYellowTasks,redTasks,doneRedTasks,greenTasks,doneGreenTasks;
+    double yellowTasks,doneYellowTasks,redTasks,doneRedTasks,greenTasks,doneGreenTasks;
     ArrayList<ListData> listData;
     ListAdapter listAdapter;
     ListData listItem;
     TaskReminderService taskReminderService;
     TaskDbHelper taskDbHelper;
+    CheckBox chxBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
         listAdapter=new ListAdapter(getBaseContext(),listData);
         listView=(ListView)findViewById(R.id.list);
         listView.setAdapter(listAdapter);
+        chxBox = (CheckBox)findViewById(R.id.taskFinished);
         redTasks =0;
         doneRedTasks=0;
         yellowTasks = 0;
@@ -120,9 +123,46 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
          @Override
             public void onClick(View view){
                 Intent intent = new Intent(StartScreen.this, StatisticsView.class);
-                startActivity(intent);
+             if(listData != null) {
+                 int[] statTasks = new int[3];
+
+                 for (ListData l : listData) {
+                     Log.e("IT'S A NOT ME,MARIO"," ");
+                     switch (l.priority) {
+                         case 1:
+                             greenTasks++;
+                             if (l.checkBox) {
+                                 doneGreenTasks++;
+                             }
+                             break;
+                         case 2:
+                             yellowTasks++;
+                             if (l.checkBox) {
+                                 doneYellowTasks++;
+                             }
+                             break;
+                         case 3:
+                             redTasks++;
+                             if (l.checkBox) {
+                                 doneRedTasks++;
+                                 Log.e("IT'S RED NOT ME,SAM"," ");
+                             }
+                             break;
+                         default:
+                             break;
+                     }
+                 }
+                 statTasks[0] = (int) ((doneGreenTasks / greenTasks) * 100);
+                 statTasks[1] = (int) ((doneYellowTasks / yellowTasks  ) * 100);
+                 statTasks[2] = (int) ((doneRedTasks / redTasks) * 100);
+                 intent.putExtra("Tasks", statTasks);
+             }
+                startActivityForResult(intent, 0);
+
             }
         });
+
+
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -157,13 +197,8 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
 
                 if (data.hasExtra("Deleted")) {
                     listItem = ((ListData) data.getSerializableExtra("Task"));
-                    Log.d("TAG", "got in2");
                     taskDbHelper.deleteTask(changedItemName);
-                    Log.d("TAG", "got in3");
-
                     listData.clear();
-                    Log.d("TAG", "got in1");
-
                     readDatabase();
                     taskReminderService.updateTasks(listData);
                 } else {

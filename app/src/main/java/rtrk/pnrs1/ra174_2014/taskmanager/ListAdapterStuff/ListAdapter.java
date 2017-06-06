@@ -31,7 +31,7 @@ public class ListAdapter extends ArrayAdapter<ListData> {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        ListData element = getItem(position);
+        final ListData element = getItem(position);
         Date currentDate = new Date();
         String pattern = "dd/MM/yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -68,10 +68,15 @@ public class ListAdapter extends ArrayAdapter<ListData> {
         chkBoxData.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
+                if (isChecked) {
                     txtDataName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                else
+                    element.checkBox = true;
+                }
+                else {
                     txtDataName.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
+                    element.checkBox = false;
+                }
+
             }
         });
 

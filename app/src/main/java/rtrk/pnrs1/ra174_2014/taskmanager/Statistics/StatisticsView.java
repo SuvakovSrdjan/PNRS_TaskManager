@@ -7,6 +7,7 @@ package rtrk.pnrs1.ra174_2014.taskmanager.Statistics;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -19,16 +20,29 @@ public class StatisticsView extends AppCompatActivity implements StatisticsModel
     Button statsBack;
     RelativeLayout layout;
     ChartsView chartsView;
+    Intent intent;
+    int[] stats;
+    int greenDrawn = 0,redDrawn = 0,yellowDrawn = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics_view);
+        Intent intent = new Intent(getBaseContext(), StartScreen.class);
+
+        //if(intent.hasExtra("Tasks")) {
+            Log.e("Error of your way","");
+        Bundle bundle = getIntent().getExtras();
+            stats = bundle.getIntArray("Tasks");
+            greenDrawn = stats[0];
+            redDrawn = stats[2];
+            yellowDrawn = stats[1];
+        //}
         init();
     }
 
     private void init(){
         statsBack = (Button)findViewById(R.id.statsBack);
-        chartsView =  new ChartsView(getBaseContext(),90,68,30);
+        chartsView =  new ChartsView(getBaseContext(),redDrawn,greenDrawn,yellowDrawn);
         statsBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
