@@ -23,6 +23,7 @@ import rtrk.pnrs1.ra174_2014.taskmanager.DatabaseStuff.TaskDbHelper;
 import rtrk.pnrs1.ra174_2014.taskmanager.ListAdapterStuff.ListAdapter;
 import rtrk.pnrs1.ra174_2014.taskmanager.ListAdapterStuff.ListData;
 import rtrk.pnrs1.ra174_2014.taskmanager.R;
+import rtrk.pnrs1.ra174_2014.taskmanager.Statistics.JniStats;
 import rtrk.pnrs1.ra174_2014.taskmanager.Statistics.StatisticsView;
 
 /**
@@ -37,13 +38,15 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
     private Button btnStatistics;
     private ListView listView;
     private String changedItemName;
-    double yellowTasks,doneYellowTasks,redTasks,doneRedTasks,greenTasks,doneGreenTasks;
+    private JniStats jniStats;
+    int yellowTasks,doneYellowTasks,redTasks,doneRedTasks,greenTasks,doneGreenTasks;
     ArrayList<ListData> listData;
     ListAdapter listAdapter;
     ListData listItem;
     TaskReminderService taskReminderService;
     TaskDbHelper taskDbHelper;
     CheckBox chxBox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,7 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
         listView=(ListView)findViewById(R.id.list);
         listView.setAdapter(listAdapter);
         chxBox = (CheckBox)findViewById(R.id.taskFinished);
+        jniStats = new JniStats();
         redTasks =0;
         doneRedTasks=0;
         yellowTasks = 0;
@@ -123,6 +127,12 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
          @Override
             public void onClick(View view){
                 Intent intent = new Intent(StartScreen.this, StatisticsView.class);
+             redTasks =0;
+             doneRedTasks=0;
+             yellowTasks = 0;
+             doneYellowTasks = 0;
+             greenTasks = 0;
+             doneGreenTasks =0;
              if(listData != null) {
                  int[] statTasks = new int[3];
 
@@ -133,6 +143,7 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
                              greenTasks++;
                              if (l.checkBox) {
                                  doneGreenTasks++;
+                                 Log.e("IT'S GREEN BEAN"," ");
                              }
                              break;
                          case 2:
@@ -152,10 +163,13 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
                              break;
                      }
                  }
-                 statTasks[0] = (int) ((doneGreenTasks / greenTasks) * 100);
-                 statTasks[1] = (int) ((doneYellowTasks / yellowTasks  ) * 100);
-                 statTasks[2] = (int) ((doneRedTasks / redTasks) * 100);
+                 statTasks[0] = jniStats.calcStats(greenTasks,doneGreenTasks); //(int) ((doneGreenTasks / greenTasks) * 100);
+                 statTasks[1] = jniStats.calcStats(yellowTasks,doneYellowTasks); //(int) ((doneYellowTasks / yellowTasks  ) * 100);
+                 statTasks[2] = jniStats.calcStats(redTasks,doneRedTasks); //(int) ((doneRedTasks / redTasks) * 100);
                  intent.putExtra("Tasks", statTasks);
+                 Log.e("[0] ", Integer.toString(statTasks[0]));
+                 Log.e("[1] ", Integer.toString(statTasks[1]));
+                 Log.e("[2] ", Integer.toString(statTasks[2]));
              }
                 startActivityForResult(intent, 0);
 
