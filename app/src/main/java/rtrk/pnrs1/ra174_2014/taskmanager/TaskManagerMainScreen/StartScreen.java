@@ -90,7 +90,7 @@ public class StartScreen extends AppCompatActivity implements StartScreenModel {
         };
 
         bindService(intent,reminderConnection,BIND_AUTO_CREATE);
-        startService(intent);
+       // startService(intent);
     }
 
 
